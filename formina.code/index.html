@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>For Menaaa ♡</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Georgia, serif;
+    background: linear-gradient(135deg, #ffe4ec, #fff8f5, #fbd3e0);
+    color: #81445a;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.page {
+    display: none;
+    min-height: 100vh;
+    padding: 75px 18px 110px;
+    align-items: center;
+    justify-content: center;
+}
+
+.page.active {
+    display: flex;
+    animation: fadeIn 0.7s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.card {
+    width: 100%;
+    max-width: 750px;
+    padding: 40px 25px;
+    text-align: center;
+    background: rgba(255,255,255,0.82);
+    border: 1px solid white;
+    border-radius: 28px;
+    box-shadow: 0 15px 45px #c77d9630;
+}
+
+.small-title {
+    color: #d66c8b;
+    font: 12px Arial, sans-serif;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+h1 {
+    color: #a34465;
+    font-size: clamp(45px, 9vw, 75px);
+    font-weight: normal;
+    margin: 25px 0;
+}
+
+h2 {
+    color: #a34465;
+    font-size: clamp(32px, 6vw, 48px);
+    font-weight: normal;
+    margin: 18px 0;
+}
+
+p {
+    font-size: 17px;
+    line-height: 1.9;
+    margin-bottom: 20px;
+}
+
+.heart {
+    color: #e47d9b;
+    font-size: 35px;
+    animation: beat 1.2s infinite;
+}
+
+@keyframes beat {
+    50% { transform: scale(1.2); }
+}
+
+button {
+    border: none;
+    border-radius: 30px;
+    padding: 14px 23px;
+    background: linear-gradient(135deg, #e68ba5, #bf5678);
+    color: white;
+    cursor: pointer;
+    font-size: 13px;
+    letter-spacing: 1px;
+    margin: 6px;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 18px #c77d9650;
+}
+
+button:disabled {
+    cursor: default;
+    opacity: 0.8;
+}
+
+button.secondary {
+    background: white;
+    color: #a34465;
+    border: 1px solid #edc4d1;
+}
+
+.subtitle {
+    max-width: 480px;
+    margin: 0 auto 28px;
+}
+
+.footer {
+    margin-top: 25px;
+    font: 12px Arial, sans-serif;
+    color: #bd8195;
+}
+
+/* FLOATING HEARTS */
+.floating-heart {
+    position: fixed;
+    color: #e5a0b5;
+    opacity: 0.6;
+    pointer-events: none;
+    animation: float 5s ease-in-out infinite;
+    z-index: 0;
+}
+
+.heart-one { top: 12%; left: 8%; font-size: 30px; }
+.heart-two { top: 22%; right: 9%; font-size: 22px; animation-delay: 1s; }
+.heart-three { bottom: 50%; left: 25%; font-size: 25px; animation-delay: 3s; }
+.heart-four { bottom: 60%; left: 30%; font-size: 25px; animation-delay: 5s; }
+.heart-five { bottom: 70%; left: 28%; font-size: 25px; animation-delay: 2s; }
+.heart-six { bottom: 24%; left: 40%; font-size: 25px; animation-delay: 4s; }
+.heart-seven { bottom: 80%; left: 40%; font-size: 25px; animation-delay: 3s; }
+
+@keyframes float {
+    50% { transform: translateY(-20px) rotate(12deg); }
+}
+
+/* BACKGROUND MUSIC */
+.music-player {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    z-index: 100;
+}
+
+/* YouTube requires a player viewport of at least 200x200 */
+#youtubePlayer {
+    position: fixed;
+    width: 200px;
+    height: 200px;
+    left: -220px;
+    bottom: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+#musicButton {
+    background: rgba(255,255,255,0.95);
+    color: #a34465;
+    border: 1px solid #f0c4d2;
+    border-radius: 30px;
+    padding: 12px 17px;
+    font-size: 12px;
+    box-shadow: 0 5px 18px #c77d9630;
+}
+
+/* PHOTO GALLERY */
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin: 25px 0;
+}
+
+.photo-frame {
+    aspect-ratio: 3 / 4;
+    min-width: 0;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid #e6a4b9;
+    border-radius: 17px;
+    background: linear-gradient(145deg, #fff4f7, #f8dce6);
+}
+
+.photo-frame img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.photo-frame:hover img {
+    transform: scale(1.08);
+}
+
+.photo-caption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    padding: 12px 6px;
+    color: white;
+    background: linear-gradient(transparent, rgba(80,25,48,0.78));
+    font: 12px/1.5 Arial, sans-serif;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.35);
+}
+
+.photo-hint {
+    font: 12px/1.7 Arial, sans-serif;
+    color: #b17b8c;
+}
+
+/* LOVE LETTER */
+.letter {
+    background: #fffdfb;
+    border: 1px solid #f0d4de;
+    border-radius: 5px 20px 20px 20px;
+    padding: 28px 23px;
+    margin: 25px auto;
+    max-width: 570px;
+    text-align: left;
+    box-shadow: 0 10px 25px #c77d9615;
+}
+
+.letter p {
+    margin-bottom: 17px;
+}
+
+.signature {
+    text-align: right;
+    color: #a34465;
+    font-style: italic;
+    font-size: 22px;
+}
+
+/* BOTTOM NAVIGATION */
+.navigation {
+    position: fixed;
+    z-index: 5;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 4px;
+    padding: 7px;
+    border-radius: 35px;
+    background: rgba(255,255,255,0.95);
+    box-shadow: 0 7px 25px #c77d9630;
+    width: max-content;
+    max-width: calc(100% - 20px);
+}
+
+.navigation button {
+    margin: 0;
+    background: transparent;
+    color: #a35c75;
+    padding: 12px 14px;
+    letter-spacing: 0;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.navigation button.active {
+    background: #f8dce5;
+    color: #873e59;
+    box-shadow: none;
+}
+
+/* SURPRISE PHOTO */
+.photo-reveal {
+    display: none;
+    max-width: 560px;
+    margin: 25px auto 0;
+    animation: fadeIn 0.8s ease;
+}
+
+.photo-reveal.show {
+    display: block;
+}
+
+.surprise-photo-frame {
+    padding: 8px;
+    background: linear-gradient(135deg, #f7d9a2, #f4a8bd, #fff4eb);
+    border-radius: 18px;
+    box-shadow: 0 0 35px #f4a8bd45;
+}
+
+.surprise-photo-frame img {
+    display: block;
+    width: 100%;
+    max-height: 65vh;
+    object-fit: contain;
+    border-radius: 12px;
+}
+
+.surprise-caption {
+    color: #a34465;
+    font-size: clamp(21px, 4vw, 29px);
+    font-style: italic;
+    margin: 20px 0 10px;
+}
+
+.surprise-note {
+    color: #81445a;
+    font: 14px/1.9 Arial, sans-serif;
+    max-width: 450px;
+    margin: auto;
+}
+
+/* SURPRISE ANIMATION */
+.pop-burst {
+    position: fixed;
+    z-index: 200;
+    pointer-events: none;
+    left: var(--x);
+    top: var(--y);
+    font-size: var(--s);
+    animation: burst 1.8s ease-out forwards;
+}
+
+@keyframes burst {
+    0% { transform: scale(.3); opacity: 0; }
+    15% { opacity: 1; }
+    100% {
+        transform: translate(var(--dx), var(--dy))
+                   rotate(var(--rot)) scale(1.3);
+        opacity: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .card { padding: 30px 15px; }
+    .photo-grid { gap: 6px; }
+    .photo-frame { border-radius: 11px; }
+    .navigation { gap: 2px; padding: 5px; }
+    .navigation button { padding: 10px 7px; font-size: 10px; }
+    p { font-size: 16px; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- BACKGROUND MUSIC -->
+<div class="music-player">
+    <div id="youtubePlayer"></div>
+    <button id="musicButton" onclick="toggleMusic()">♫ Play Music</button>
+</div>
+
+<!-- FLOATING HEARTS -->
+<div class="floating-heart heart-one">♡</div>
+<div class="floating-heart heart-two">♡</div>
+<div class="floating-heart heart-three">✧</div>
+<div class="floating-heart heart-four">♡</div>
+<div class="floating-heart heart-five">♡</div>
+<div class="floating-heart heart-six">♡</div>
+<div class="floating-heart heart-seven">♡</div>
+
+<!-- INTRO PAGE -->
+<section class="page active" id="page0">
+    <div class="card">
+        <div class="small-title">Ronix little place</div>
+        <div class="heart">♡</div>
+        <h1>For Menaaa</h1>
+
+        <p class="subtitle">
+            This website was created with all my heart, not merely
+            to show you what I can make, but to give you a glimpse
+            of how deeply I feel for you. Every detail, every line
+            of code, and every little touch carries a piece of my
+            affection. Words may never be enough to express what
+            you mean to me, so I made something special, something
+            that comes from my heart, made just for you. This is
+            my little way of showing you that you are someone worth
+            the time, effort, and love I put into creating something
+            beautiful.
+        </p>
+
+        <button onclick="showPage(1)">ENTER MY WORLD ♡</button>
+
+        <div class="footer">Made with pure love and determination ♡</div>
+    </div>
+</section>
+
+<!-- PHOTO GALLERY -->
+<section class="page" id="page1">
+    <div class="card">
+        <div class="small-title">Little moments</div>
+        <h2>My fav pics of my langlangg ♡</h2>
+        <p class="subtitle">Every picture holds a memory I want to keep.</p>
+
+        <div class="photo-grid">
+            <figure class="photo-frame">
+                <img src="img/photo-1.jpg" alt="A sweet memory">
+                <figcaption class="photo-caption">saken lang po ang tingin ♡</figcaption>
+            </figure>
+
+            <figure class="photo-frame">
+                <img src="img/photo-2.jpg" alt="A favorite memory">
+                <figcaption class="photo-caption">Your beautiful smile ♡</figcaption>
+            </figure>
+
+            <figure class="photo-frame">
+                <img src="img/photo-3.jpg" alt="A memory at school">
+                <figcaption class="photo-caption">A memory to keep ♡</figcaption>
+            </figure>
+
+            <figure class="photo-frame">
+                <img src="img/photo-4.jpg" alt="A cozy selfie">
+                <figcaption class="photo-caption">Just you, always ♡</figcaption>
+            </figure>
+
+            <figure class="photo-frame">
+                <img src="img/photo-5.jpg" alt="A favorite photo">
+                <figcaption class="photo-caption">The faceless woman of my dreams ♡</figcaption>
+            </figure>
+
+            <figure class="photo-frame">
+                <img src="img/photo-6.jpg" alt="A favorite photo">
+                <figcaption class="photo-caption">Lady Boss ♡</figcaption>
+            </figure>
+
+            <figure class="photo-frame">
+                <img src="img/photo-7.jpg" alt="A photo of you and Azriel">
+                <figcaption class="photo-caption">My fav photo of you &amp; Azriel ♡</figcaption>
+            </figure>
+
+            <figure class="photo-frame">
+                <img src="img/photo-8.jpg" alt="A favorite photo">
+                <figcaption class="photo-caption">Mena'chanxutiee ♡</figcaption>
+            </figure>
+        </div>
+
+        <div class="photo-hint">♡ I HOPE YOU LIKE IT ://</div>
+        <br>
+
+        <button class="secondary" onclick="showPage(0)">← BACK</button>
+        <button onclick="showPage(2)">READ MY LETTER Please please ♡</button>
+    </div>
+</section>
+
+<!-- LOVE LETTER -->
+<section class="page" id="page2">
+    <div class="card">
+        <div class="small-title">A letter from my heart</div>
+        <h2>please read read ://</h2>
+
+        <div class="letter">
+            <p>My Dearest, Tita pretty ♡</p>
+
+            <p>Hi ZA, Good day. How have you been? I hope you're doing the best and life has been treating you kindly and that you're well reading as of this moment. If you ever see this, ako nga pala yung nagka crush sayo nong first year. I made this small web sincerely just to make up with you and longing to earn your heart again.</p>
+
+            <p>I'm truly sorry for the mistakes I've made, for my sleeping habits, my misunderstandings, my overthinking, and my immaturity that changed the way you felt about me. I'm clinging to the possibility that our story hasn't reached to it's final chapter. — Isa pa with feelings naman po.</p>
+
+            <p>Looking back, I realize that loving someone isn't just about having genuine feelings; it's also about understanding their pain, being mindful of my actions, and making them feel valued. I know I may be foolish sometimes, and I can't undo the hurt I've caused, but I don't want to keep making the same mistakes and giving you the same apologies. However, let me apologize for the last time (if not yet) na pinagsisihan ko na di ko nagawa yung promise ko before na pag napasaken ka ulet I'll give you everything that i am (ikaw kase kala ko meron ka ng iba, tapos sabi mo friends lang muna, ayun tuloy nakalimot ko).</p>
+
+            <p>Still, I want to learn, grow, and become better, not just through my words, but through my actions. I'm willing to try and try again to mend what's left of us rather than lose you entirely. No matter how difficult things become, a part of me will always believe that what we have is worth fighting for. Nonetheless, if you can no longer imagine being with me, I will respect your decision. I know we've lost some things along the way, but we've also gained something through everything we've experienced together. Regardless of this, can we atleast watch the movie that we said we would?</p>
+
+            <p>Truth to be told, I saw how hard you're trying for us, and I want you to know that every effort you've made and every sacrifice you've endured has never gone unnoticed. I see them, I acknowledge them, and I genuinely appreciate everything you've done for us and for the people around you. Especially the guilt you've had to carry while keeping our connection a secret from your father.</p>
+
+            <p>I like you more than words could ever explain, and the thought of losing you is something my heart still cannot accept. You make ordinary days feel special, and even the smallest moments with you become memories I want to keep forever.</p>
+
+            <p>Thank you for showing different kinds of you, for being yourself, for your silly smiles, I might as well mention someone who kurot kurot my tagiliran, your side na yearner, your pagka masunget, your dumpy side Mena, Ms. Pakipot na Mena and the one who sandal my shoulder. Lastly, thanks for the happiness you bring into my life. I may not always find the perfect words, but I hope with this I can show you how much you mean to me. I missed you pero ano basta lmk ur response nalang hays nakakahiya.</p>
+
+            <p>I want to keep liking you, just as I want to preserve this little page for eternity. And if in some distant place in the future, we see each other again in our new lives, I'll smile to you with joy and remember how we spent that autumn afternoon beneath the vines. I hope this reminds you that someone is always happy to have you in their life. You are my favorite person always, My Patchot, George, langlang, Mena'chanxutie, Mego.</p>
+
+            <p class="signature">Always yours,<br>Arese ♡</p>
+        </div>
+
+        <button class="secondary" onclick="showPage(1)">← My fav pics of my langlangg</button>
+        <button onclick="showPage(0)">BACK TO THE BEGINNING ♡</button>
+    </div>
+</section>
+
+<!-- FLOWERS AND SURPRISE -->
+<section class="page" id="page3">
+    <div class="card">
+        <div class="small-title">A little something just for you</div>
+        <div class="heart">✿</div>
+        <h2>Flowers for You ♡</h2>
+
+        <p class="subtitle">
+            A small surprise for my favorite person. Tap below and let
+            a little love and a few flowers fill your screen. 🌷
+        </p>
+
+        <div id="giftIcon" style="font-size:52px;margin:18px 0;">🎁</div>
+
+        <button id="revealBtn" onclick="revealLove()">Open your surprise ♡</button>
+
+        <div class="photo-reveal" id="photoReveal" aria-live="polite">
+            <div class="surprise-photo-frame">
+                <img src="img/photo-9.jpg" alt="A special memory for you">
+            </div>
+
+            <div class="surprise-caption">A little memory, just for you. ♡</div>
+
+            <p class="surprise-note">
+                If I could keep a moment in my pocket and take it out
+                whenever I miss you, it would be a moment like this.
+                Thank you for being part of my story, pretty girl. 🌷
+            </p>
+        </div>
+
+        <div style="margin-top:25px;">
+            <button class="secondary" onclick="showPage(2)">← My Letter</button>
+            <button onclick="showPage(0)">Back to Intro ♡</button>
+        </div>
+    </div>
+</section>
+
+<!-- BOTTOM NAVIGATION -->
+<nav class="navigation" aria-label="Main navigation">
+    <button id="nav0" class="active" onclick="showPage(0)">♡ Intro</button>
+    <button id="nav1" onclick="showPage(1)">♡ My Mundo</button>
+    <button id="nav2" onclick="showPage(2)">♡ My Letter</button>
+    <button id="nav3" onclick="showPage(3)">♡ Flowers</button>
+</nav>
+
+<script>
+/* PAGE NAVIGATION */
+function showPage(number) {
+    const selectedPage = document.getElementById("page" + number);
+    const selectedButton = document.getElementById("nav" + number);
+
+    if (!selectedPage || !selectedButton) return;
+
+    document.querySelectorAll(".page").forEach(page => {
+        page.classList.remove("active");
+    });
+
+    document.querySelectorAll(".navigation button").forEach(button => {
+        button.classList.remove("active");
+    });
+
+    selectedPage.classList.add("active");
+    selectedButton.classList.add("active");
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+/* YOUTUBE BACKGROUND MUSIC */
+let player = null;
+let musicPlaying = false;
+let musicReady = false;
+let playRequested = false;
+
+const videoId = "m8_0Nn7eWWY";
+
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player("youtubePlayer", {
+        height: "200",
+        width: "200",
+        videoId: videoId,
+        playerVars: {
+            autoplay: 0,
+            controls: 0,
+            loop: 1,
+            playlist: videoId,
+            playsinline: 1,
+            origin: window.location.origin
+        },
+        events: {
+            onReady: function() {
+                musicReady = true;
+                updateMusicButton();
+
+                if (playRequested) {
+                    player.playVideo();
+                }
+            },
+
+            onStateChange: function(event) {
+                if (event.data === YT.PlayerState.PLAYING) {
+                    musicPlaying = true;
+                } else if (
+                    event.data === YT.PlayerState.PAUSED ||
+                    event.data === YT.PlayerState.ENDED
+                ) {
+                    musicPlaying = false;
+                }
+
+                updateMusicButton();
+
+                if (event.data === YT.PlayerState.ENDED) {
+                    player.playVideo();
+                }
+            },
+
+            onError: function(event) {
+                console.error("YouTube player error:", event.data);
+
+                const button = document.getElementById("musicButton");
+
+                if (button) {
+                    button.textContent = "♫ Music unavailable";
+                    button.title = "Open the music on YouTube";
+                    button.onclick = function() {
+                        window.open(
+                            "https://www.youtube.com/watch?v=" + videoId,
+                            "_blank",
+                            "noopener,noreferrer"
+                        );
+                    };
+                }
+            }
+        }
+    });
+}
+
+function toggleMusic() {
+    if (!musicReady || !player) {
+        playRequested = true;
+
+        const button = document.getElementById("musicButton");
+
+        if (button) {
+            button.textContent = "♫ Loading music...";
+        }
+
+        return;
+    }
+
+    if (musicPlaying) {
+        player.pauseVideo();
+    } else {
+        playRequested = true;
+        player.playVideo();
+    }
+}
+
+function updateMusicButton() {
+    const button = document.getElementById("musicButton");
+
+    if (!button) return;
+
+    if (!musicReady) {
+        button.textContent = playRequested
+            ? "♫ Loading music..."
+            : "♫ Play Music";
+    } else {
+        button.textContent = musicPlaying
+            ? "♫ Pause Music"
+            : "♫ Play Music";
+    }
+}
+
+/* SURPRISE PHOTO AND FLOWER ANIMATION */
+function revealLove() {
+    const photo = document.getElementById("photoReveal");
+    const button = document.getElementById("revealBtn");
+    const gift = document.getElementById("giftIcon");
+
+    if (!photo || !button || photo.classList.contains("show")) return;
+
+    photo.classList.add("show");
+    button.textContent = "A memory made sweeter with you ♡";
+    button.disabled = true;
+
+    if (gift) {
+        gift.textContent = "💖";
+    }
+
+    const symbols = ["🌸", "🌷", "♡", "♥", "✦", "✧", "💗", "🌼"];
+
+    for (let i = 0; i < 68; i++) {
+        setTimeout(function() {
+            const particle = document.createElement("span");
+
+            particle.className = "pop-burst";
+            particle.textContent =
+                symbols[Math.floor(Math.random() * symbols.length)];
+
+            particle.style.setProperty(
+                "--x",
+                (15 + Math.random() * 70) + "vw"
+            );
+
+            particle.style.setProperty(
+                "--y",
+                (20 + Math.random() * 55) + "vh"
+            );
+
+            particle.style.setProperty(
+                "--dx",
+                ((Math.random() - 0.5) * 260) + "px"
+            );
+
+            particle.style.setProperty(
+                "--dy",
+                (-60 - Math.random() * 360) + "px"
+            );
+
+            particle.style.setProperty(
+                "--rot",
+                ((Math.random() - 0.5) * 160) + "deg"
+            );
+
+            particle.style.setProperty(
+                "--s",
+                (14 + Math.random() * 22) + "px"
+            );
+
+            document.body.appendChild(particle);
+
+            setTimeout(() => particle.remove(), 1900);
+        }, i * 24);
+    }
+
+    photo.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
+}
+
+/* LOAD YOUTUBE IFRAME API */
+(function loadYouTubeAPI() {
+    if (window.YT && window.YT.Player) {
+        onYouTubeIframeAPIReady();
+        return;
+    }
+
+    const script = document.createElement("script");
+
+    script.src = "https://www.youtube.com/iframe_api";
+    script.async = true;
+
+    document.head.appendChild(script);
+})();
+</script>
+
+</body>
+</html>
